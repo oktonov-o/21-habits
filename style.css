@@ -114,3 +114,14 @@ hr {
   border-style: none;
   border-top: 2px solid white;
 }
+
+/* Progress Bar */
+.habit-card__progressbar{
+    position: relative;
+    height: 100%;
+}
+.progress-circle{
+    transform-origin: center;
+    transform: rotate(270deg);
+    transition: stroke-dashoffset 0.3s ;
+}
