@@ -17,6 +17,7 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .header {
   width: 100%;
@@ -41,4 +42,75 @@ body {
   font-size: 12px;
   line-height: 12px;
   text-transform: uppercase;
+}
+
+/* Styles for body ( Habit list) */
+.body {
+  width: 90%;
+  height: auto;
+  margin-bottom: 2rem;
+}
+.habit-list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.habit-card {
+  width: 100%;
+  height: auto;
+  background: #f2f2f2;
+  border-radius: 6px;
+}
+.habit-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.habit-card__header--title {
+  width: 50%;
+}
+.habit-card__header--title > h1 {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 200;
+  float: left;
+  margin-left: 1rem;
+}
+.habit-card__header--quantity {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+}
+.card-quantity {
+  width: 30%;
+  padding: 5px;
+}
+.card-quantity__number {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 28px;
+}
+.win {
+  color: #27ae60;
+}
+.fail {
+  color: #eb5757;
+}
+.left {
+  color: #9b51e0;
+}
+.card-quantity__subtitle {
+  font-weight: 100;
+  font-size: 7px;
+  line-height: 8px;
+}
+hr {
+  width: 90%;
+  border-style: none;
+  border-top: 2px solid white;
 }
