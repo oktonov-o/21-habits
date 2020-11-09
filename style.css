@@ -9,6 +9,7 @@ body {
   background: #e5e5e5;
 }
 .container {
+  position: relative;
   width: 40%;
   min-width: 375px;
   margin: 20px auto;
@@ -116,12 +117,83 @@ hr {
 }
 
 /* Progress Bar */
-.habit-card__progressbar{
-    position: relative;
-    height: 100%;
+.habit-card__progressbar {
+  position: relative;
+  height: 100%;
 }
-.progress-circle{
-    transform-origin: center;
-    transform: rotate(270deg);
-    transition: stroke-dashoffset 0.3s ;
+.progress-circle {
+  transform-origin: center;
+  transform: rotate(270deg);
+  transition: stroke-dashoffset 0.3s;
+}
+
+/* Form Popup window */
+
+.popupWindow {
+  border: 1px solid;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(128, 128, 128, 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-container {
+  border: 2px solid;
+  width: 90%;
+}
+.inner-popup-container {
+  width: 90%;
+  /* border: 2px solid red; */
+  margin: 0 auto;
+  padding: 40px 0;
+  background: #fff;
+  border-radius: 6px;
+  position: relative;
+}
+.popupWindow__title {
+  font-size: 18px;
+  line-height: 22px;
+}
+input {
+  width: 70%;
+  height: 52px;
+  outline: none;
+  border: 1px solid #bdbdbd;
+  margin-top: 3rem;
+  padding-left: 2rem;
+  border-radius: 6px;
+}
+.btn-form {
+  width: 80%;
+  height: 52px;
+  margin-top: 3rem;
+}
+.btn-form:hover {
+  background: #27ae60;
+}
+.btn__text {
+  color: #fbfbfb;
+  font-size: 24px;
+  line-height: 28px;
+}
+.exit_img {
+  width: 20px;
+}
+.exit-btn {
+  top: 1.5rem;
+  right: 1.5rem;
+  position: absolute;
+}
+.exit-btn:active {
+  top: 1.7rem;
+  right: 1.6rem;
+}
+
+form input::placeholder {
+  margin-left: 2rem;
+  color: #bdbdbd;
+  font-size: 18px;
+  line-height: 21px;
 }
