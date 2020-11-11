@@ -79,7 +79,7 @@ function renderNewItem() {
                 <div class="card-quantity__subtitle">БОЛБОДУ</div>
             </div>
             <div class="card--quantity">
-                <div class="card-quantity__number left">8</div>
+                <div class="card-quantity__number left"></div>
                 <div class="card-quantity__subtitle">КАЛДЫК</div>
             </div>
         </div>
@@ -97,10 +97,19 @@ function renderNewItem() {
 
 elements.btnForm.addEventListener("click", function(){
     newItem();
-    renderNewItem();
-    elements.popupWindow.style.display = "none";
+    if(currentItem.name!="" && currentItem.value!=""){
+      renderNewItem();
+      elements.popupWindow.style.display = "none";
+    } else {
+      alert("Адаттын атын же кундордун санын жазганды унуттунуз.")
+    }
 });
 
 elements.exitBtn.addEventListener('click', function(){
     elements.popupWindow.style.display = "none";
 });
+
+document.getElementById('btn').addEventListener('click', function(){
+  elements.popupWindow.style.display = "flex";
+});
+
