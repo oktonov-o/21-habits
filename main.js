@@ -9,7 +9,7 @@ const elements = {
     circle: document.querySelector('.progress-circle'),
     btnCircle: document.querySelector('.btn-circle')
 }
-/// properties of circle in all progress bars
+/// properties of circle
 const radius = elements.circle.r.baseVal.value;
 const circleLength = 2 * Math.PI * radius;
 
@@ -129,7 +129,7 @@ elements.headerBtn.addEventListener('click', showPopupWindow);
 elements.exitBtn.addEventListener('click', hidePopupWindow);
 
 
-//PROGRESS BAR
+
 // All events whenn clicking btn in circle will be here:
 document.addEventListener('click', function(event){
     if(event.target.classList[1] == "btn-circle"){
@@ -140,7 +140,11 @@ document.addEventListener('click', function(event){
     let step = parseFloat(circle.dataset.step);
 
     // identifying current progress and changing previous progress with current one
-    let currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+    let currentProgress;
+    if(!(JSON.parse(localStorage.getItem('allItems'))[id - 1])){currentProgress = circleLength}
+    else{
+        currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+    }
     currentProgress = currentProgress - step;
     allItems[id - 1].progress = currentProgress;
     
