@@ -35,10 +35,10 @@ body {
   border-radius: 6px;
   border-style: none;
   outline: none;
+  color: #f2f2f2;
 }
 .btn__text {
   margin: auto 0;
-  color: #f2f2f2;
   padding: 5.25px 30px;
   font-size: 12px;
   line-height: 12px;
@@ -57,6 +57,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 1rem;
 }
 .habit-card {
   width: 100%;
@@ -137,20 +138,19 @@ hr {
   background: rgba(128, 128, 128, 50%);
   display: none;
   justify-content: center;
-  align-items: center;
 }
 .popup-container {
-  border: 2px solid;
   width: 90%;
+  position: relative;
 }
 .inner-popup-container {
   width: 90%;
-  /* border: 2px solid red; */
   margin: 0 auto;
   padding: 40px 0;
   background: #fff;
   border-radius: 6px;
   position: relative;
+  top: 5em;
 }
 .popupWindow__title {
   font-size: 18px;
@@ -196,4 +196,30 @@ form input::placeholder {
   color: #bdbdbd;
   font-size: 18px;
   line-height: 21px;
+}
+
+/* btn progressbar in circle*/
+.btn-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+}
+.btn-circle:active {
+  top: 52%;
+  left: 48%;
+}
+.progress-circle {
+  transform-origin: center;
+  transform: rotate(270deg);
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.3s;
+  /* transform: unset; */
+}
+.circle-top {
+  z-index: 999;
+}
+.circle-buttom {
+  z-index: 10;
 }
