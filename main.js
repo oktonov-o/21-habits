@@ -9,7 +9,7 @@ const elements = {
     circle: document.querySelector('.progress-circle'),
     btnCircle: document.querySelector('.btn-circle')
 }
-/// properties of circle
+/// properties of circle in all progress bars
 const radius = elements.circle.r.baseVal.value;
 const circleLength = 2 * Math.PI * radius;
 
@@ -93,7 +93,7 @@ function renderCurrentItem(item){
     elements.habitList.insertAdjacentHTML("beforeend", curItemHtml);
 }
 
-
+// If there is data in localStorage it reads and renders to our page
 function renderExistedItems(){
     readStorage();
     allItems.forEach((item) => {
@@ -102,6 +102,7 @@ function renderExistedItems(){
 };
 renderExistedItems();
 
+
 function globalAppController(){
     // Get input values and push it into array DATA
     getInputsAndPush();
@@ -109,6 +110,7 @@ function globalAppController(){
     renderCurrentItem(currentItem);
 }
 
+// Event Handlers On clicking  the btn Form
 elements.btnForm.addEventListener('click', function(){
     globalAppController();
     hidePopupWindow();
@@ -122,59 +124,34 @@ document.addEventListener('keypress', function(event){
     }
 });
 
-
-
 // Show and hide popup windows
 elements.headerBtn.addEventListener('click', showPopupWindow);
 elements.exitBtn.addEventListener('click', hidePopupWindow);
 
 
-
-
-
-
-
-
-// Progress bar
-// 1. Initial Conditions
-// const radius = elements.circle.r.baseVal.value;
-// const circleLength = 2 * Math.PI * radius;
-// elements.circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
-// event.target.classList[2].split('-')[2]
-// document.querySelector(`.circle-${ event.target.classList[2].split('-')[1]}`).parentNode.childNodes[1]     Getting targeted svg element
-// let currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
-
-// elements.circle.style.strokeDashoffset = circleLength;
+//PROGRESS BAR
+// All events whenn clicking btn in circle will be here:
 document.addEventListener('click', function(event){
     if(event.target.classList[1] == "btn-circle"){
-        
-// All events whenn clicking btn in circle will be here:
+       
+    // getting id, circle, step from clicked(active) progress bar
     let id = event.target.classList[2].split('-')[1];
     let circle = document.querySelector(`.circle-${ event.target.classList[2].split('-')[1]}`).parentNode.childNodes[1].childNodes[1];
     let step = parseFloat(circle.dataset.step);
 
-    console.log(id);
-    console.log(circle);
-    console.log(step);
-
-    // seeting all Data to Local storage
-    localStorage.setItem("allItems", JSON.stringify(allItems));
-
-    // getting current progress from local storage
+    // identifying current progress and changing previous progress with current one
     let currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
     currentProgress = currentProgress - step;
     allItems[id - 1].progress = currentProgress;
-    JSON.parse(localStorage.getItem('allItems'))[id - 1].progress = currentProgress;
-
+    
+    // setting all changes to localStorage
     setToLocalStorage(allItems);
     console.log(currentProgress);
+
+    // On each step these styles will be added
     circle.style.strokeDashoffset = currentProgress;
     circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
     circle.style.stroke = "#27ae60";
 
     }
 });
-
-
-console.log(radius);
-console.log(circleLength);
