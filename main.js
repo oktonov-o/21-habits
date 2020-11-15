@@ -52,8 +52,12 @@ function getInputsAndPush(){
         value: elements.habitDays.value,
         progress: circleLength
     }
-
-    allItems.push(currentItem);
+    if(currentItem.name!="" && currentItem.value!=""){
+        allItems.push(currentItem);
+        elements.popupWindow.style.display = "none";
+      } else {
+        alert("Адаттын атын же кундордун санын жазганды унуттунуз.");
+      }
     console.log(currentItem);
     console.log(allItems)
 }
