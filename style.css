@@ -215,7 +215,6 @@ form input::placeholder {
   transform: rotate(270deg);
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 0.3s;
-  /* transform: unset; */
 }
 .circle-top {
   z-index: 999;
