@@ -1,115 +1,180 @@
-// export const renderLoader = parent => {
-//     const loader = `
-//         <div class="${elementStrings.loader}">
-//             <svg>
-//                 <use href="img/icons.svg#icon-cw"></use>
-//             </svg>
-//         </div>
-//     `;
-//     parent.insertAdjacentHTML('afterbegin', loader);
-// };
-
-
-
-// function showPopUpWindow() {
-//     document.getElementById('popUpWindow').style.display='block';
-// }
-
-// function newItem() {
-//     document.getElementById('popUpWindow').style.display='none';
-//     var item_name = document.getElementById('habit-name').value;
-//     var item_days = document.getElementById('habit-days').value;
-// 	var ul = document.getElementById("list");
-//     var li = document.createElement('li');
-//     console.log(li);
-//   li.appendChild(document.createTextNode(item_name+" for "+item_days));
-//   ul.appendChild(li);
-//   document.getElementById('habit-name').value="";
-//   li.onclick = removeItem;
-// }
-
-// document.body.onkeyup = function(e){
-//       if(e.keyCode == 13){
-//         newItem();
-//       }
-//   }
-
-// function removeItem(e) {
-//   e.target.parentElement.removeChild(e.target);
-// }
-
-/////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
 const elements = {
     habitName: document.getElementById('habit-name'),
     habitDays: document.getElementById('habit-days'),
     btnForm: document.querySelector('.btn-form'),
     exitBtn: document.querySelector('.exit-btn'),
     habitList: document.querySelector('.habit-list'),
-    popupWindow: document.querySelector('.popupWindow')
+    popupWindow: document.querySelector('.popupWindow'),
+    headerBtn: document.querySelector('.header__btn'),
+    circle: document.querySelector('.progress-circle'),
+    btnCircle: document.querySelector('.btn-circle')
 }
+/// properties of circle
+const radius = elements.circle.r.baseVal.value;
+const circleLength = 2 * Math.PI * radius;
+
+// Data
 let allItems = [];
 let currentItem = {
+    id: 0,
     name: "",
-    value: 0
+    value: 0,
+    progress: circleLength,
 };
 
-function newItem() {
-    currentItem.name = elements.habitName.value;
-    currentItem.value = elements.habitDays.value;
-    allItems.push(currentItem);
-    console.log(allItems);
-    return allItems;
+function readStorage() {
+    const storage = JSON.parse(localStorage.getItem('allItems'));
+    
+    // Restoring likes from the localStorage
+    if (storage) allItems = storage;
+}
+function setToLocalStorage(allItems){
+    localStorage.setItem("allItems", JSON.stringify(allItems));
 }
 
-function renderNewItem() {
-    let newRenderedItem = `
-    <div class="habit-card-0 habit-card">
-        <div class="habit-card__header">
-            <div class="habit-card__header--title">
-                <h1 class="card-title">${allItems[allItems.length - 1].name}</h1>
-            </div>
+
+function showPopupWindow(){
+    elements.popupWindow.style.display = "flex";
+}
+function hidePopupWindow(){
+    elements.popupWindow.style.display = "none";
+}
+
+function clearInputFields(){
+    elements.habitDays.value = "";
+    elements.habitName.value = "";
+}
+
+function getInputsAndPush(){
+    currentItem = {
+        id: allItems.length !== 0 ? allItems[allItems.length - 1].id + 1 : 1,
+        name: elements.habitName.value,
+        value: elements.habitDays.value,
+        progress: circleLength
+    }
+
+    allItems.push(currentItem);
+    console.log(currentItem);
+    console.log(allItems)
+}
+
+function renderCurrentItem(item){
+    let curItemHtml = `
+    <div class="habit-card-${item.id} habit-card">
+    <div class="habit-card__header">
+        <div class="habit-card__header--title">
+            <h1 class="card-title">${item.name}</h1>
+        </div>
         <div class="habit-card__header--quantity">
             <div class="card-quantity">
-                <div class="card-quantity__number win">12</div>
+                <div class="card-quantity__number win">0</div>
                 <div class="card-quantity__subtitle">ИЙГИЛИКТУУ</div>
             </div>
             <div class="card--quantity">
-                <div class="card-quantity__number fail">1</div>
+                <div class="card-quantity__number fail">0</div>
                 <div class="card-quantity__subtitle">БОЛБОДУ</div>
             </div>
             <div class="card--quantity">
+                <div class="card-quantity__number left">${item.value}</div>
                 <div class="card-quantity__number left"></div>
                 <div class="card-quantity__subtitle">КАЛДЫК</div>
             </div>
         </div>
-            </div>
-            <hr/>
-                <div class="habit-card__progressbar">
-                        <svg class="progress-bar" width="182" height="182">
-                            <circle class="progress-circle" stroke=#27ae60 stroke-width="15"  cx="91" cy="91" r="76" fill="transparent" />
-                        </svg>
-                    </div>
-                </div>
+    </div>
+    <hr/>
+    <div class="habit-card__progressbar">
+        <svg class="progress-bar" width="182" height="182">
+            <circle class="progress-circle " stroke=#e5e5e5 stroke-width="15"  cx="91" cy="91" r="76" fill="transparent" data-step="${circleLength / item.value}" style = "stroke-dashoffset:${item.progress}; stroke-dasharray :${circleLength} ${circleLength}; stroke:${item.id == allItems.length + 1? "#e5e5e5": "#27ae60" };"/>
+        </svg>
+        <button class="btn btn-circle circle-${item.id}">ЖАСАДЫМ</button>
+    </div>
+</div>
     `;
-    elements.habitList.insertAdjacentHTML("beforeend", newRenderedItem);
+    elements.habitList.insertAdjacentHTML("beforeend", curItemHtml);
 }
 
-elements.btnForm.addEventListener("click", function(){
-    newItem();
-    if(currentItem.name!="" && currentItem.value!=""){
-      renderNewItem();
-      elements.popupWindow.style.display = "none";
-    } else {
-      alert("Адаттын атын же кундордун санын жазганды унуттунуз.")
+
+function renderExistedItems(){
+    readStorage();
+    allItems.forEach((item) => {
+        renderCurrentItem(item);
+    })
+};
+renderExistedItems();
+
+function globalAppController(){
+    // Get input values and push it into array DATA
+    getInputsAndPush();
+    // 3. Render new currently added item
+    renderCurrentItem(currentItem);
+}
+
+elements.btnForm.addEventListener('click', function(){
+    globalAppController();
+    hidePopupWindow();
+    clearInputFields();
+});
+document.addEventListener('keypress', function(event){
+    if (event.keyCode === 13 || event.which === 13) {
+        globalAppController();
+        hidePopupWindow();
+        clearInputFields();
     }
 });
 
-elements.exitBtn.addEventListener('click', function(){
-    elements.popupWindow.style.display = "none";
+
+
+// Show and hide popup windows
+elements.headerBtn.addEventListener('click', showPopupWindow);
+elements.exitBtn.addEventListener('click', hidePopupWindow);
+
+
+
+
+
+
+
+
+// Progress bar
+// 1. Initial Conditions
+// const radius = elements.circle.r.baseVal.value;
+// const circleLength = 2 * Math.PI * radius;
+// elements.circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
+// event.target.classList[2].split('-')[2]
+// document.querySelector(`.circle-${ event.target.classList[2].split('-')[1]}`).parentNode.childNodes[1]     Getting targeted svg element
+// let currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+
+// elements.circle.style.strokeDashoffset = circleLength;
+document.addEventListener('click', function(event){
+    if(event.target.classList[1] == "btn-circle"){
+        
+// All events whenn clicking btn in circle will be here:
+    let id = event.target.classList[2].split('-')[1];
+    let circle = document.querySelector(`.circle-${ event.target.classList[2].split('-')[1]}`).parentNode.childNodes[1].childNodes[1];
+    let step = parseFloat(circle.dataset.step);
+
+    console.log(id);
+    console.log(circle);
+    console.log(step);
+
+    // seeting all Data to Local storage
+    localStorage.setItem("allItems", JSON.stringify(allItems));
+
+    // getting current progress from local storage
+    let currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+    currentProgress = currentProgress - step;
+    allItems[id - 1].progress = currentProgress;
+    JSON.parse(localStorage.getItem('allItems'))[id - 1].progress = currentProgress;
+
+    setToLocalStorage(allItems);
+    console.log(currentProgress);
+    circle.style.strokeDashoffset = currentProgress;
+    circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
+    circle.style.stroke = "#27ae60";
+
+    }
 });
 
-document.getElementById('btn').addEventListener('click', function(){
-  elements.popupWindow.style.display = "flex";
-});
 
+console.log(radius);
+console.log(circleLength);
