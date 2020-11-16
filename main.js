@@ -110,6 +110,10 @@ renderExistedItems();
 function globalAppController(){
     // Get input values and push it into array DATA
     getInputsAndPush();
+
+    //set all Items to Local Storage
+    setToLocalStorage(allItems);
+
     // 3. Render new currently added item
     renderCurrentItem(currentItem);
 }
@@ -145,9 +149,8 @@ document.addEventListener('click', function(event){
 
     // identifying current progress and changing previous progress with current one
     let currentProgress;
-    if(!(JSON.parse(localStorage.getItem('allItems'))[id - 1])){currentProgress = circleLength}
-    else{
-        currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+    if(!(localStorage.getItem('allItems'))){currentProgress = circleLength;
+    }else {currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
     }
     currentProgress = currentProgress - step;
     allItems[id - 1].progress = currentProgress;
