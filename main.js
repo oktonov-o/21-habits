@@ -26,6 +26,11 @@ let currentItem = {
         day: 0
     },
     progressBtnDisplay: "block",
+    achievements: {
+        win: 0,
+        fail: 0,
+        left: 0,
+    }
 };
 
 // getting current Date
@@ -88,6 +93,11 @@ function getInputsAndPush(){
         progress: circleLength,
         today: today,
         progressBtnDisplay: "block",
+        achievements: {
+            win: 0,
+            fail: 0,
+            left: elements.habitDays.value,
+        }
     }
     if(currentItem.name!="" && currentItem.value!=""){
         allItems.push(currentItem);
@@ -108,15 +118,15 @@ function renderCurrentItem(item){
         </div>
         <div class="habit-card__header--quantity">
             <div class="card-quantity">
-                <div class="card-quantity__number win">0</div>
+                <div class="card-quantity__number win">${item.achievements.win}</div>
                 <div class="card-quantity__subtitle">ИЙГИЛИКТУУ</div>
             </div>
             <div class="card--quantity">
-                <div class="card-quantity__number fail">0</div>
+                <div class="card-quantity__number fail">${item.achievements.fail}</div>
                 <div class="card-quantity__subtitle">БОЛБОДУ</div>
             </div>
             <div class="card--quantity">
-                <div class="card-quantity__number left">${item.value}</div>
+                <div class="card-quantity__number left">${item.achievements.left}</div>
                 <div class="card-quantity__number left"></div>
                 <div class="card-quantity__subtitle">КАЛДЫК</div>
             </div>
@@ -199,13 +209,26 @@ document.addEventListener('click', function(event){
 
         allItems[id - 1].progress = currentProgress;
         
-        // setting all changes to localStorage
-        setToLocalStorage(allItems);
-    
-        // On each step these styles will be added
+        // On each step these styles will be added to circle
         circle.style.strokeDashoffset = currentProgress;
         circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
         circle.style.stroke = "#27ae60";
+
+        // Calculator for ACHIEVEMENTS
+        // adding 1 to win subtracting 1 from left
+        let win, fail, left;
+        // 1. get new changed values from DATA
+        win = allItems[id - 1].achievements.win;
+        left = allItems[id - 1].achievements.left;
+        fail = allItems[id - 1].achievements.fail;
+
+        // 2. setting new achievement's values into UI
+        circle.parentNode.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[1].childNodes[1].innerHTML = win;
+        circle.parentNode.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[5].childNodes[1].innerHTML = left;
+
+        // setting all changes to localStorage
+        setToLocalStorage(allItems);
+    
     }
 
     }
