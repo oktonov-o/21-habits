@@ -180,22 +180,33 @@ document.addEventListener('click', function(event){
     let btnProgress = circle.parentNode.parentElement.childNodes[3];
     let previousDate = allItems[id - 1].today.day;
 
-    // identifying current progress and changing previous progress with current one
-    let currentProgress;
-    if(!(localStorage.getItem('allItems'))){currentProgress = circleLength;
-    }else {currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
-    }
-    currentProgress = currentProgress - step;
-    allItems[id - 1].progress = currentProgress;
-    
-    // setting all changes to localStorage
-    setToLocalStorage(allItems);
-    console.log(currentProgress);
+    // Comparing today's DATE with previousDate
+    if(previousDate.day != today.day){
+        // 1. hide current element on both DATA and UI && change previousDate's value to today's date
+        allItems[id - 1].progressBtnDisplay = "none";
+        btnProgress.style.display = "none";
+        previousDate = today;
+        
+        // 2. identifying current progress and changing previous progress with current one
+        let currentProgress;
+        currentProgress = JSON.parse(localStorage.getItem('allItems'))[id - 1].progress;
+        if(currentProgress <= 0){ 
+            allItems[id - 1].progressBtnDisplay = "none"; 
+            currentProgress = 0;
+        }else{
+            currentProgress = currentProgress - step;
+        }
 
-    // On each step these styles will be added
-    circle.style.strokeDashoffset = currentProgress;
-    circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
-    circle.style.stroke = "#27ae60";
+        allItems[id - 1].progress = currentProgress;
+        
+        // setting all changes to localStorage
+        setToLocalStorage(allItems);
+    
+        // On each step these styles will be added
+        circle.style.strokeDashoffset = currentProgress;
+        circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
+        circle.style.stroke = "#27ae60";
+    }
 
     }
 });
