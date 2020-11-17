@@ -191,7 +191,7 @@ document.addEventListener('click', function(event){
     let previousDate = allItems[id - 1].today.day;
 
     // Comparing today's DATE with previousDate
-    if(previousDate.day != today.day){
+    if(previousDate.day != today.day ){
         // 1. hide current element on both DATA and UI && change previousDate's value to today's date
         allItems[id - 1].progressBtnDisplay = "none";
         btnProgress.style.display = "none";
@@ -205,31 +205,65 @@ document.addEventListener('click', function(event){
             currentProgress = 0;
         }else{
             currentProgress = currentProgress - step;
+            allItems[id - 1].achievements.win += 1;
+            allItems[id - 1].achievements.left -= 1;
         }
-
         allItems[id - 1].progress = currentProgress;
-        
-        // On each step these styles will be added to circle
-        circle.style.strokeDashoffset = currentProgress;
-        circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
-        circle.style.stroke = "#27ae60";
 
-        // Calculator for ACHIEVEMENTS
+
+        // Calculations
         // adding 1 to win subtracting 1 from left
         let win, fail, left;
-        // 1. get new changed values from DATA
+        // 2. get new changed values from DATA
         win = allItems[id - 1].achievements.win;
         left = allItems[id - 1].achievements.left;
         fail = allItems[id - 1].achievements.fail;
 
-        // 2. setting new achievement's values into UI
+        // setting new achievement's values into UI
         circle.parentNode.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[1].childNodes[1].innerHTML = win;
         circle.parentNode.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[5].childNodes[1].innerHTML = left;
 
+        
         // setting all changes to localStorage
         setToLocalStorage(allItems);
     
+        // On each step these styles will be added
+        circle.style.strokeDashoffset = currentProgress;
+        circle.style.strokeDasharray = `${circleLength} ${circleLength}`;
+        circle.style.stroke = "#27ae60";
     }
 
     }
 });
+
+
+// on a new entering to our application
+// Checking all item's date and their btn's display property
+// if the previousDate = today display: none btns
+// if user left days not doing progress calculate achievement's LEFT property 
+
+for(let i = 0; i < allItems.length; i++){
+    // For each element in all items:
+    if(allItems[i].today.day != today.day){
+        // display btn and setToLocalStorage();
+        
+        if(allItems[i].progress <= 0){
+            allItems[i].progressBtnDisplay = "none";
+            setToLocalStorage(allItems);
+            clearAllAndRenderAgain()
+        }else {
+            allItems[i].progressBtnDisplay = "block";
+            setToLocalStorage(allItems);
+            clearAllAndRenderAgain();
+        }
+
+    }else {console.log("Come back tomorrow")};
+
+    // fining how many days we have left and make calculations
+    if(allItems[i].today.day + 1 < today.day){
+        allItems[i].achievements.fail += today.day - allItems[i].today.day - 1;
+        setToLocalStorage(allItems);
+        console.log("You have left some days");
+
+    }else {console.log("You did not fail today")}
+}
