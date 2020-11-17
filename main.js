@@ -132,14 +132,6 @@ function renderCurrentItem(item){
     elements.habitList.insertAdjacentHTML("beforeend", curItemHtml);
 }
 
-// If there is data in localStorage it reads and renders to our page
-function renderExistedItems(){
-    readStorage();
-    allItems.forEach((item) => {
-        renderCurrentItem(item);
-    })
-};
-renderExistedItems();
 
 
 function globalAppController(){
@@ -151,19 +143,21 @@ function globalAppController(){
 
     // 3. Render new currently added item
     renderCurrentItem(currentItem);
+
+    // 4. hide popup Window
+    hidePopupWindow();
+
+    // 5. clear input fields
+    clearInputFields();
 }
 
 // Event Handlers On clicking  the btn Form
 elements.btnForm.addEventListener('click', function(){
     globalAppController();
-    hidePopupWindow();
-    clearInputFields();
 });
 document.addEventListener('keypress', function(event){
     if (event.keyCode === 13 || event.which === 13) {
         globalAppController();
-        hidePopupWindow();
-        clearInputFields();
     }
 });
 
