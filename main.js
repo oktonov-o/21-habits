@@ -70,6 +70,15 @@ function clearInputFields(){
     elements.habitName.value = "";
 }
 
+// If there is data in localStorage it reads and renders to our page
+function renderExistedItems(){
+    readStorage();
+    allItems.forEach((item) => {
+        renderCurrentItem(item);
+    })
+};
+renderExistedItems();
+
 function getInputsAndPush(){
     currentItem = {
         id: allItems.length !== 0 ? allItems[allItems.length - 1].id + 1 : 1,
