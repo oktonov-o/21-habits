@@ -171,10 +171,12 @@ elements.exitBtn.addEventListener('click', hidePopupWindow);
 document.addEventListener('click', function(event){
     if(event.target.classList[1] == "btn-circle"){
        
-    // getting id, circle, step from clicked(active) progress bar
+    // getting all required variables for Progress bar
     let id = event.target.classList[2].split('-')[1];
     let circle = document.querySelector(`.circle-${ event.target.classList[2].split('-')[1]}`).parentNode.childNodes[1].childNodes[1];
     let step = parseFloat(circle.dataset.step);
+    let btnProgress = circle.parentNode.parentElement.childNodes[3];
+    let previousDate = allItems[id - 1].today.day;
 
     // identifying current progress and changing previous progress with current one
     let currentProgress;
