@@ -242,6 +242,12 @@ document.addEventListener('click', function(event){
 // if the previousDate = today display: none btns
 // if user left days not doing progress calculate achievement's LEFT property 
 
+// function for instantly make changes on UI in many items at once
+function clearAllAndRenderAgain(){
+    elements.habitList.innerHTML = '';
+    renderExistedItems();
+}
+
 for(let i = 0; i < allItems.length; i++){
     // For each element in all items:
     if(allItems[i].today.day != today.day){
