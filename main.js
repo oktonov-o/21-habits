@@ -84,7 +84,8 @@ function getInputsAndPush(){
         id: allItems.length !== 0 ? allItems[allItems.length - 1].id + 1 : 1,
         name: elements.habitName.value,
         value: elements.habitDays.value,
-        progress: circleLength
+        progress: circleLength,
+        today: today,
     }
     if(currentItem.name!="" && currentItem.value!=""){
         allItems.push(currentItem);
