@@ -99,7 +99,7 @@ function getInputsAndPush(){
             left: elements.habitDays.value,
         }
     }
-    if(currentItem.name!="" && currentItem.value!=""){
+    if(currentItem.name!="" && currentItem.value!="" && currentItem.value != 0){
         allItems.push(currentItem);
         elements.popupWindow.style.display = "none";
       } else {
@@ -154,7 +154,7 @@ function globalAppController(){
     setToLocalStorage(allItems);
 
     // 3. Render new currently added item
-    renderCurrentItem(currentItem);
+    clearAllAndRenderAgain();
 
     // 4. hide popup Window
     hidePopupWindow();
