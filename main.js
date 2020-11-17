@@ -25,6 +25,7 @@ let currentItem = {
         month: 0,
         day: 0
     },
+    progressBtnDisplay: "block",
 };
 
 // getting current Date
@@ -86,6 +87,7 @@ function getInputsAndPush(){
         value: elements.habitDays.value,
         progress: circleLength,
         today: today,
+        progressBtnDisplay: "block",
     }
     if(currentItem.name!="" && currentItem.value!=""){
         allItems.push(currentItem);
@@ -125,7 +127,7 @@ function renderCurrentItem(item){
         <svg class="progress-bar" width="182" height="182">
             <circle class="progress-circle " stroke=#e5e5e5 stroke-width="15"  cx="91" cy="91" r="76" fill="transparent" data-step="${circleLength / item.value}" style = "stroke-dashoffset:${item.progress}; stroke-dasharray :${circleLength} ${circleLength}; stroke:${item.id == allItems.length + 1? "#e5e5e5": "#27ae60" };"/>
         </svg>
-        <button class="btn btn-circle circle-${item.id}">ЖАСАДЫМ</button>
+        <button class="btn btn-circle circle-${item.id}" style="display:${item.progressBtnDisplay}">ЖАСАДЫМ</button>
     </div>
 </div>
     `;
