@@ -20,7 +20,32 @@ let currentItem = {
     name: "",
     value: 0,
     progress: circleLength,
+    today: {
+        year: 0,
+        month: 0,
+        day: 0
+    },
 };
+
+// getting current Date
+let today = {
+    year: 0,
+    month: 0,
+    day: 0
+};
+function currentDate(){
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
+    today = {
+        year: year,
+        month: month,
+        day: day
+    }
+}
+currentDate();
+console.log(today);
 
 function readStorage() {
     const storage = JSON.parse(localStorage.getItem('allItems'));
