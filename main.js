@@ -195,7 +195,7 @@ document.addEventListener('click', function(event){
         // 1. hide current element on both DATA and UI && change previousDate's value to today's date
         allItems[id - 1].progressBtnDisplay = "none";
         btnProgress.style.display = "none";
-        previousDate = today;
+        allItems[id - 1].today.day = today;
         
         // 2. identifying current progress and changing previous progress with current one
         let currentProgress;
