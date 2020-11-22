@@ -195,7 +195,8 @@ document.addEventListener('click', function(event){
         // 1. hide current element on both DATA and UI && change previousDate's value to today's date
         allItems[id - 1].progressBtnDisplay = "none";
         btnProgress.style.display = "none";
-        allItems[id - 1].today.day = today;
+        allItems[id - 1].today.day = today.day;
+        console.log(allItems[id - 1].today.day + " new date");
         
         // 2. identifying current progress and changing previous progress with current one
         let currentProgress;
@@ -217,7 +218,6 @@ document.addEventListener('click', function(event){
         // 2. get new changed values from DATA
         win = allItems[id - 1].achievements.win;
         left = allItems[id - 1].achievements.left;
-        fail = allItems[id - 1].achievements.fail;
 
         // setting new achievement's values into UI
         circle.parentNode.parentElement.parentElement.childNodes[1].childNodes[3].childNodes[1].childNodes[1].innerHTML = win;
